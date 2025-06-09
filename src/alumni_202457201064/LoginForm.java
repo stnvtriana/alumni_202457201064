@@ -157,13 +157,14 @@ public class LoginForm extends javax.swing.JFrame {
     private void bLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLoginActionPerformed
         // TODO add your handling code here:
         String username = tUsername.getText();
-        String password = tPassword.getText();
+        String password = new String (tPassword.getText());
         if (username.equals("Admin") && password.equals("241105")) {
             JOptionPane.showMessageDialog(this, "Login Berhasil");
+            new DashBor().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Username Atau Password Salah!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        new DashBor().setVisible(true);
+        
         
     }//GEN-LAST:event_bLoginActionPerformed
 

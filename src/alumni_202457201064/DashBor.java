@@ -5,6 +5,7 @@
 package alumni_202457201064;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -30,7 +31,6 @@ public class DashBor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PKonten = new javax.swing.JPanel();
         PanelUtama = new javax.swing.JPanel();
         PanelLeftboard = new javax.swing.JPanel();
         bDashboard = new javax.swing.JButton();
@@ -41,10 +41,7 @@ public class DashBor extends javax.swing.JFrame {
         bAbout = new javax.swing.JButton();
         bLogout = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        bKeluar = new javax.swing.JButton();
-
-        PKonten.setForeground(new java.awt.Color(255, 255, 255));
-        PKonten.setLayout(new java.awt.CardLayout());
+        PKonten = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -73,6 +70,11 @@ public class DashBor extends javax.swing.JFrame {
         bJurusan.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bJurusan.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         bJurusan.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        bJurusan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bJurusanActionPerformed(evt);
+            }
+        });
 
         bGuru.setBackground(new java.awt.Color(153, 255, 153));
         bGuru.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -110,6 +112,11 @@ public class DashBor extends javax.swing.JFrame {
         bSiswa.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bSiswa.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         bSiswa.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        bSiswa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSiswaActionPerformed(evt);
+            }
+        });
 
         bAbout.setBackground(new java.awt.Color(153, 255, 153));
         bAbout.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -119,6 +126,11 @@ public class DashBor extends javax.swing.JFrame {
         bAbout.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         bAbout.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         bAbout.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        bAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAboutActionPerformed(evt);
+            }
+        });
 
         bLogout.setBackground(new java.awt.Color(153, 255, 153));
         bLogout.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
@@ -144,12 +156,12 @@ public class DashBor extends javax.swing.JFrame {
         PanelLeftboard.setLayout(PanelLeftboardLayout);
         PanelLeftboardLayout.setHorizontalGroup(
             PanelLeftboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bDashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+            .addComponent(bDashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(bSiswa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(bKelas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(bGuru, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(bJurusan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
             .addComponent(bLogout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(bAbout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -172,16 +184,10 @@ public class DashBor extends javax.swing.JFrame {
                 .addComponent(bAbout, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(887, Short.MAX_VALUE))
+                .addContainerGap(636, Short.MAX_VALUE))
         );
 
-        bKeluar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alumni_202457201064/gambar/icons8-close-20.png"))); // NOI18N
-        bKeluar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bKeluar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bKeluarActionPerformed(evt);
-            }
-        });
+        PKonten.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout PanelUtamaLayout = new javax.swing.GroupLayout(PanelUtama);
         PanelUtama.setLayout(PanelUtamaLayout);
@@ -189,26 +195,27 @@ public class DashBor extends javax.swing.JFrame {
             PanelUtamaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelUtamaLayout.createSequentialGroup()
                 .addComponent(PanelLeftboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1026, 1026, 1026)
-                .addComponent(bKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PKonten, javax.swing.GroupLayout.PREFERRED_SIZE, 1781, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         PanelUtamaLayout.setVerticalGroup(
             PanelUtamaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(PanelLeftboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(PanelUtamaLayout.createSequentialGroup()
-                .addComponent(bKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(PKonten, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelUtama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(PanelUtama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelUtama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(PanelUtama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -216,29 +223,64 @@ public class DashBor extends javax.swing.JFrame {
 
     private void bGuruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGuruActionPerformed
         // TODO add your handling code here:
+       PKonten.removeAll();
+       PKonten.add(new PanelGuru());
+       PKonten.repaint();
+       PKonten.revalidate();
     }//GEN-LAST:event_bGuruActionPerformed
 
     private void bKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bKelasActionPerformed
         // TODO add your handling code here:
+         PKonten.removeAll();
+       PKonten.add(new PanelKelas());
+       PKonten.repaint();
+       PKonten.revalidate();
     }//GEN-LAST:event_bKelasActionPerformed
 
     private void bDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDashboardActionPerformed
         // TODO add your handling code here:
-        PKonten.removeAll();
-        PKonten.add(new PanelDashboard());
-        PKonten.repaint();
-        PKonten.revalidate();
+       PKonten.removeAll();
+       PKonten.add(new PanelDashboard());
+       PKonten.repaint();
+       PKonten.revalidate();
     }//GEN-LAST:event_bDashboardActionPerformed
-
-    private void bKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bKeluarActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_bKeluarActionPerformed
 
     private void bLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLogoutActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        int pilihan = JOptionPane.showConfirmDialog(null,
+                "Apakah Anda Yakin Ingin Keluar", "Konfirmasi", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (pilihan == JOptionPane.YES_OPTION){
+            System.out.println("Keluar Dari Aplikasi...");
+            System.exit(0);
+        } else {
+            System.out.println("Aksi Dibatalkan");
+        }
+       
     }//GEN-LAST:event_bLogoutActionPerformed
+
+    private void bJurusanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bJurusanActionPerformed
+        // TODO add your handling code here:
+       PKonten.removeAll();
+       PKonten.add(new PanelJurusan());
+       PKonten.repaint();
+       PKonten.revalidate();
+    }//GEN-LAST:event_bJurusanActionPerformed
+
+    private void bSiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSiswaActionPerformed
+        // TODO add your handling code here:
+       PKonten.removeAll();
+       PKonten.add(new PanelSiswa());
+       PKonten.repaint();
+       PKonten.revalidate();
+    }//GEN-LAST:event_bSiswaActionPerformed
+
+    private void bAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAboutActionPerformed
+        // TODO add your handling code here:
+         PKonten.removeAll();
+       PKonten.add(new PanelAbout());
+       PKonten.repaint();
+       PKonten.revalidate();
+    }//GEN-LAST:event_bAboutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -272,7 +314,6 @@ public class DashBor extends javax.swing.JFrame {
     private javax.swing.JButton bGuru;
     private javax.swing.JButton bJurusan;
     private javax.swing.JButton bKelas;
-    private javax.swing.JButton bKeluar;
     private javax.swing.JButton bLogout;
     private javax.swing.JButton bSiswa;
     private javax.swing.JLabel jLabel1;
