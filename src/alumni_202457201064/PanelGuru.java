@@ -235,10 +235,10 @@ public class PanelGuru extends javax.swing.JPanel {
         // TODO add your handling code here:
          int selectedRow = TableGuru.getSelectedRow();
         if (selectedRow != -1){
-            String NIP = tNIP.getText();
-            String NamaGuru = tNamaGuru.getText();
-            String JenisKelamin = cbJenisKelamin.getSelectedItem().toString();
-            String alamat = tAlamat.getText();
+            String NIP = tNIP.getText().trim();
+            String NamaGuru = tNamaGuru.getText().trim();
+            String JenisKelamin = cbJenisKelamin.getSelectedItem().toString().trim();
+            String alamat = tAlamat.getText().trim();
            
             
             model.setValueAt(NIP, selectedRow, 0);

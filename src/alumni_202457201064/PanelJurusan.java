@@ -32,7 +32,6 @@ public class PanelJurusan extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        bTutup = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         bTambah = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -51,32 +50,18 @@ public class PanelJurusan extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Data Jurusan");
 
-        bTutup.setBackground(new java.awt.Color(153, 255, 153));
-        bTutup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alumni_202457201064/gambar/icons8-close-20.png"))); // NOI18N
-        bTutup.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        bTutup.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bTutupActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bTutup, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(bTutup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -214,22 +199,17 @@ public class PanelJurusan extends javax.swing.JPanel {
         // TODO add your handling code here:
         int selectedRow = TableJurusan.getSelectedRow();
         if (selectedRow != -1){
-            String KodeJurusan = tKodeJurusan.getText();
-            String NamaJurusan = tNamaJurusan.getText();
+            String KodeJurusan = tKodeJurusan.getText().trim();
+            String NamaJurusan = tNamaJurusan.getText().trim();
             
             model.setValueAt(KodeJurusan, selectedRow, 0);
             model.setValueAt(NamaJurusan, selectedRow, 1);
-           resetForm();
+          
         }else{
             JOptionPane.showMessageDialog(this,"Pilih Baris Yang Akan Diubah.");
         }
          
     }//GEN-LAST:event_bUbahActionPerformed
-
-    private void bTutupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTutupActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_bTutupActionPerformed
 
     private void bResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResetActionPerformed
         // TODO add your handling code here:
@@ -277,7 +257,6 @@ public class PanelJurusan extends javax.swing.JPanel {
     private javax.swing.JButton bHapus;
     private javax.swing.JButton bReset;
     private javax.swing.JButton bTambah;
-    private javax.swing.JButton bTutup;
     private javax.swing.JButton bUbah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

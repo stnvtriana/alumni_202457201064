@@ -251,11 +251,11 @@ public class PanelKelas extends javax.swing.JPanel {
         // TODO add your handling code here:
         int selectedRow = TableKelas.getSelectedRow();
         if (selectedRow != -1){
-            String KodeKelas = tKodeKelas.getText();
-            String NamaKelas = tNamaKelas.getText();
-            String tingkatan = cbTingkatan.getSelectedItem().toString();
-            String jurusan = cbJurusan.getSelectedItem().toString();
-            String WaliKelas = cbWaliKelas.getSelectedItem().toString();
+            String KodeKelas = tKodeKelas.getText().trim();
+            String NamaKelas = tNamaKelas.getText().trim();
+            String tingkatan = cbTingkatan.getSelectedItem().toString().trim();
+            String jurusan = cbJurusan.getSelectedItem().toString().trim();
+            String WaliKelas = cbWaliKelas.getSelectedItem().toString().trim();
             
             model.setValueAt(KodeKelas, selectedRow, 0);
             model.setValueAt(NamaKelas, selectedRow, 1);
