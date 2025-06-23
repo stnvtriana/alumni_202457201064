@@ -4,6 +4,8 @@
  */
 package alumni_202457201064;
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -41,6 +43,7 @@ public class DashBor extends javax.swing.JFrame {
         bLogout = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         PKonten = new javax.swing.JPanel();
+        bTutup = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -53,6 +56,7 @@ public class DashBor extends javax.swing.JFrame {
         bDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alumni_202457201064/gambar/icons8-dashboard-20.png"))); // NOI18N
         bDashboard.setText("Dashboard");
         bDashboard.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        bDashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         bDashboard.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         bDashboard.setMargin(new java.awt.Insets(10, 10, 10, 10));
         bDashboard.addActionListener(new java.awt.event.ActionListener() {
@@ -183,10 +187,19 @@ public class DashBor extends javax.swing.JFrame {
                 .addComponent(bAbout, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(636, Short.MAX_VALUE))
+                .addContainerGap(657, Short.MAX_VALUE))
         );
 
         PKonten.setLayout(new java.awt.CardLayout());
+
+        bTutup.setBackground(new java.awt.Color(102, 255, 102));
+        bTutup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alumni_202457201064/gambar/icons8-close-20.png"))); // NOI18N
+        bTutup.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        bTutup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bTutupActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelUtamaLayout = new javax.swing.GroupLayout(PanelUtama);
         PanelUtama.setLayout(PanelUtamaLayout);
@@ -195,22 +208,24 @@ public class DashBor extends javax.swing.JFrame {
             .addGroup(PanelUtamaLayout.createSequentialGroup()
                 .addComponent(PanelLeftboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PKonten, javax.swing.GroupLayout.PREFERRED_SIZE, 1781, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(PKonten, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bTutup, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         PanelUtamaLayout.setVerticalGroup(
             PanelUtamaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(PanelLeftboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PKonten, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(PanelUtamaLayout.createSequentialGroup()
+                .addComponent(bTutup, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(PanelUtama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(PanelUtama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,19 +245,11 @@ public class DashBor extends javax.swing.JFrame {
 
     private void bKelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bKelasActionPerformed
         // TODO add your handling code here:
-         PKonten.removeAll();
+       PKonten.removeAll();
        PKonten.add(new PanelKelas());
        PKonten.repaint();
        PKonten.revalidate();
     }//GEN-LAST:event_bKelasActionPerformed
-
-    private void bDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDashboardActionPerformed
-        // TODO add your handling code here:
-       PKonten.removeAll();
-       PKonten.add(new PanelDashboard());
-       PKonten.repaint();
-       PKonten.revalidate();
-    }//GEN-LAST:event_bDashboardActionPerformed
 
     private void bLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLogoutActionPerformed
         // TODO add your handling code here:
@@ -275,11 +282,24 @@ public class DashBor extends javax.swing.JFrame {
 
     private void bAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAboutActionPerformed
         // TODO add your handling code here:
-         PKonten.removeAll();
+       PKonten.removeAll();
        PKonten.add(new PanelAbout());
        PKonten.repaint();
        PKonten.revalidate();
     }//GEN-LAST:event_bAboutActionPerformed
+
+    private void bTutupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTutupActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_bTutupActionPerformed
+
+    private void bDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDashboardActionPerformed
+        // TODO add your handling code here:
+        PKonten.removeAll();
+        PKonten.add(new PanelDashboard());
+        PKonten.repaint();
+        PKonten.revalidate();
+    }//GEN-LAST:event_bDashboardActionPerformed
 
     /**
      * @param args the command line arguments
@@ -291,7 +311,7 @@ public class DashBor extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            UIManager.setLookAndFeel(new FlatDarkLaf());
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
         } catch (UnsupportedLookAndFeelException unsupportedLookAndFeelException) {
         }
         //</editor-fold>
@@ -315,6 +335,7 @@ public class DashBor extends javax.swing.JFrame {
     private javax.swing.JButton bKelas;
     private javax.swing.JButton bLogout;
     private javax.swing.JButton bSiswa;
+    private javax.swing.JButton bTutup;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

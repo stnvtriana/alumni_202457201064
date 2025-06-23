@@ -5,9 +5,15 @@
 package alumni_202457201064;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -37,9 +43,9 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         tUsername = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        tPassword = new javax.swing.JTextField();
         bLogin = new javax.swing.JButton();
         bKeluar = new javax.swing.JButton();
+        tPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -60,12 +66,6 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Password");
-
-        tPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tPasswordActionPerformed(evt);
-            }
-        });
 
         bLogin.setBackground(new java.awt.Color(102, 255, 102));
         bLogin.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
@@ -101,15 +101,15 @@ public class LoginForm extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bKeluar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(bLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(tUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(tPassword)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addContainerGap())
-                            .addComponent(bKeluar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(tPassword))
+                                .addContainerGap())))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,9 +124,9 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(tUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addComponent(bLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -145,25 +145,52 @@ public class LoginForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tPasswordActionPerformed
-
     private void bKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bKeluarActionPerformed
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_bKeluarActionPerformed
 
     private void bLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLoginActionPerformed
-        // TODO add your handling code here:
+       
+        //ambil teks yangdimasukkan user pada field username
         String username = tUsername.getText();
-        String password = new String (tPassword.getText());
-        if (username.equals("Admin") && password.equals("241105")) {
-            JOptionPane.showMessageDialog(this, "Login Berhasil");
-            new DashBor().setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Username Atau Password Salah!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        //ambil teks yangdimasukkan user pada field password
+        String password = tPassword.getText();
+        
+        //periksa apakah username dan password tidak kosong
+       if (username.length() != 0 && password.length() != 0) {
+           
+               try {
+               String sql = "SELECT * FROM user WHERE username =? AND password = md5(?)";
+               //buat koneksi kedatabase
+               Connection con = koneksi.konek();
+               //siapkan statement SQL dengan parameter
+               PreparedStatement ps = con.prepareStatement(sql);
+               //isi parameter (?) dengan username
+               ps.setString(1, username);
+               //isi parameter kedu(?) dengan password yang akan di hash MD5 disisi database
+               ps.setString(2, password);
+               // jalankan query dan ambil hasilnya 
+               ResultSet rs = ps.executeQuery();
+
+               //jika hasil query mamiliki baris (berarti login berhasil)
+               if (rs.next()) {
+                   //tutup form login
+                   dispose();
+                   //buka form dasshboard
+                   new DashBor().setVisible(true);
+               } else {
+                   // ika data tidak ditemukan, tampilkan pesan error
+                   JOptionPane.showMessageDialog(null, "username/password salah");
+                   
+               }
+           } catch (SQLException sQLException) {
+               JOptionPane.showMessageDialog(null, sQLException.getMessage());
+           }
+       } else {
+           //jika username atau password kosong, beri peringatan ke user
+           JOptionPane.showMessageDialog(null, "username/password tidak boleh kosong");
+       }
         
         
     }//GEN-LAST:event_bLoginActionPerformed
@@ -178,7 +205,7 @@ public class LoginForm extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            UIManager.setLookAndFeel(new FlatDarkLaf());
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
         } catch (UnsupportedLookAndFeelException unsupportedLookAndFeelException) {
         }
         //</editor-fold>
@@ -199,7 +226,7 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField tPassword;
+    private javax.swing.JPasswordField tPassword;
     private javax.swing.JTextField tUsername;
     // End of variables declaration//GEN-END:variables
 }
