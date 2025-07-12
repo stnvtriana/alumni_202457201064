@@ -3,8 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package alumni_202457201064;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.awt.HeadlessException;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author siti novi triana
@@ -17,9 +24,65 @@ public class PanelJurusan extends javax.swing.JPanel {
      */
     public PanelJurusan() {
         initComponents();
-        model = new DefaultTableModel(new String[]{"Kode Jurusan", "Nama Jurusan"}, 0);
-    TableJurusan1.setModel(model);
+        reset();
+        load_tabel_jurusan();
+}
+        void reset(){
+        //kosongkan isi text field kode jurusan
+        tKodeJurusan1.setText(null);
+        // aktifkan kembali text field kode jurusan agar bisa diedit 
+        tKodeJurusan1.setEditable(true);
+        //kosongkan isi text field nama jurusan
+        tNamaJurusan1.setText(null);
     }
+        void load_tabel_jurusan(){
+        //membuat objek model tabel baru
+        DefaultTableModel model = new DefaultTableModel();
+        //menambahkan kolom kedalam model tabel
+        //kolom pertama untuk kode jurusan
+        model.addColumn("Kode Jurusan");
+        //kolom kedua untuk nama jurusan
+        model.addColumn("Nama Jurusan");
+        
+        //query SQL untuk mengambil semua data dari table jurusan
+        String sql = "SELECT * FROM jurusan";
+        
+            try {
+                //membuka koneksi kedatabase
+                Connection conn = koneksi.konek();
+
+                //membuka statement untuk menjalankan array
+                Statement st = conn.createStatement();
+
+                //menjalankan query dan menyimpan hasilnya dalam ResultSet
+                ResultSet rs = st.executeQuery(sql);
+
+                //melakukan iterasi untuk setiap baris data hasil query
+                while (rs.next()) {
+                    //mengambil data kolom kode_jur
+                    String kodeJurusan = rs.getString("kode_jur");
+
+                    //mengambil data kolom nama_jurusan
+                    String namaJurusan = rs.getString("nama_jurusan");
+
+                    //membuat array berisi data satu baris
+                    Object[] baris = {kodeJurusan, namaJurusan};
+
+                    //menambahkan array baris kedalam model table
+                    model.addRow(baris);
+
+                }
+            } catch (SQLException sQLException) {
+            //menampilkan pesan error jika gagal mengambil data dari database
+            JOptionPane.showMessageDialog(null, "Gagal Mengambil Data!");
+            }
+
+            //menampilkan model yang sudah diisi kedalam tabel GUI
+            TableJurusan1.setModel(model);
+        }
+    
+        
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -232,35 +295,81 @@ public class PanelJurusan extends javax.swing.JPanel {
 
     private void bHapus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bHapus1ActionPerformed
         // TODO add your handling code here:
-        int selectedRow = TableJurusan1.getSelectedRow();
-        if (selectedRow != -1){
-            model.removeRow(selectedRow);
-            resetForm();
-        }else {
-            JOptionPane.showMessageDialog(this, "Pilih Baris Yang Akan Dihapus.");
+         //ambil input dari text field tKodeJurusan1 dan disimpan ke variable kodeJurusan
+            String kodeJurusan = tKodeJurusan1.getText();
+            //query SQL untuk mengubah data pada table 
+            String sql = "DELETE FROM jurusan WHERE kode_jur=?";
+            
+            try {
+            //query SQL untuk menyisipkan data ketable jurusan
+            Connection conn = koneksi.konek();
+
+            //siapkan query SQL untuk dieksekusi dengan parameter
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            //isi  parameter pertama (?) dengan kode Jurusan
+            ps.setString(1, kodeJurusan);
+            
+            //jalankan query untuk menyimpan data ke databse
+            ps.execute();
+            //tampilkan pesan bahwa data berhasil disimpan
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan!");
+            
+        } catch (SQLException sQLException) {
+        //jika terjadi kesalahan saat menyimpan data, tampilkan pesan gagal
+        JOptionPane.showMessageDialog(null, "Data Gagal Disimpan!");
+                System.out.println(sQLException);
         }
+            //panggil method untuk memuat ulang data pada table jurusan
+           load_tabel_jurusan();
+           //panggil method untuk mereset atau mengosongkan inputan
+           reset();
     }//GEN-LAST:event_bHapus1ActionPerformed
 
     private void bReset1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReset1ActionPerformed
         // TODO add your handling code here:
-        resetForm();
+        reset();
     }//GEN-LAST:event_bReset1ActionPerformed
 
     private void bTambah1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTambah1ActionPerformed
         // TODO add your handling code here:
-            String KodeJur = tKodeJurusan1.getText();
-            String NamaJur = tNamaJurusan1.getText();
+            //ambil input dari text field tKodeJurusan1 dan disimpan ke variable kodeJurusan
+            String kodeJurusan = tKodeJurusan1.getText();
+            //ambil input dari text field tNamaJurusan1 dan disimpan ke variable namaJurusan
+            String namaJurusan = tNamaJurusan1.getText();
             
+            //query SQL untuk mengubah data pada table 
+            String sql = "INSERT INTO jurusan(kode_jur, nama_jurusan) VALUES (?,?)";
             
-            if (KodeJur.isEmpty()&& NamaJur.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Data Tidak Boleh Kosong");
-                
-            } else {
-               model.addRow(new Object[]{KodeJur, NamaJur});
-                resetForm();
-            }
+           try {
+            //query SQL untuk menyisipkan data ketable jurusan
+            Connection conn = koneksi.konek();
+
+            //siapkan query SQL untuk dieksekusi dengan parameter
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            //isi  parameter pertama (?) dengan kode Jurusan
+            ps.setString(1, kodeJurusan);
+            //isi  parameter pertama (?) dengan nama Jurusan
+            ps.setString(2, namaJurusan);
+
+            //jalankan query untuk menyimpan data ke databse
+            ps.execute();
+            //tampilkan pesan bahwa data berhasil disimpan
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan!");
+            
+         } catch (SQLException sQLException) {
+        //jika terjadi kesalahan saat menyimpan data, tampilkan pesan gagal
+             JOptionPane.showMessageDialog(null, "Data Gagal Disimpan!");
+               System.out.println(sQLException);
+        }
+            //panggil method untuk memuat ulang data pada table jurusan
+           load_tabel_jurusan();
+           //panggil method untuk mereset atau mengosongkan inputan
+           reset();
     }//GEN-LAST:event_bTambah1ActionPerformed
 
+   
     private void tKodeJurusan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tKodeJurusan1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tKodeJurusan1ActionPerformed
@@ -271,17 +380,40 @@ public class PanelJurusan extends javax.swing.JPanel {
 
     private void bUbah1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUbah1ActionPerformed
         // TODO add your handling code here:
-         int selectedRow = TableJurusan1.getSelectedRow();
-        if (selectedRow != -1){
-            String KodeJur = tKodeJurusan1.getText().trim();
-            String NamaJur = tNamaJurusan1.getText().trim();
+          //ambil input dari text field tKodeJurusan1 dan disimpan ke variable kodeJurusan
+            String kodeJurusan = tKodeJurusan1.getText();
+            //ambil input dari text field tNamaJurusan1 dan disimpan ke variable namaJurusan
+            String namaJurusan = tNamaJurusan1.getText();
             
-            model.setValueAt(KodeJur, selectedRow, 0);
-            model.setValueAt(NamaJur, selectedRow, 1);
-           resetForm();
-        }else{
-            JOptionPane.showMessageDialog(this,"Pilih Baris Yang Akan Diubah.");
+            //query SQL untuk mengubah data pada table 
+            String sql = "UPDATE jurusan SET nama_jurusan=? WHERE kode_jur=?";
+            
+            try {
+            //query SQL untuk menyisipkan data ketable jurusan
+            Connection conn = koneksi.konek();
+
+            //siapkan query SQL untuk dieksekusi dengan parameter
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            //isi  parameter pertama (?) dengan kode Jurusan
+            ps.setString(1, namaJurusan);
+            //isi  parameter pertama (?) dengan nama Jurusan
+            ps.setString(2, kodeJurusan);
+
+            //jalankan query untuk menyimpan data ke databse
+            ps.execute();
+            //tampilkan pesan bahwa data berhasil disimpan
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan!");
+            
+        } catch (SQLException sQLException) {
+        //jika terjadi kesalahan saat menyimpan data, tampilkan pesan gagal
+        JOptionPane.showMessageDialog(null, "Data Gagal Disimpan!");
+                System.out.println(sQLException);
         }
+            //panggil method untuk memuat ulang data pada table jurusan
+           load_tabel_jurusan();
+           //panggil method untuk mereset atau mengosongkan inputan
+           reset();
     }//GEN-LAST:event_bUbah1ActionPerformed
 
     private void bTutup1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTutup1ActionPerformed
@@ -291,19 +423,19 @@ public class PanelJurusan extends javax.swing.JPanel {
 
     private void TableJurusan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableJurusan1MouseClicked
         // TODO add your handling code here:
-         int baris = TableJurusan1.getSelectedRow();
-         if (baris == -1) {
-            JOptionPane.showMessageDialog(this, "Pilih baris terlebih dahulu!");
-             return;
-        }
-
-// Ambil nilai dari setiap kolom sesuai urutan yang benar
-            String kodeJur = TableJurusan1.getValueAt(baris, 0).toString();
-            String namaJur = TableJurusan1.getValueAt(baris, 1).toString();
-
-            // Isi ke field input
-            tKodeJurusan1.setText(kodeJur);
-            tNamaJurusan1.setText(namaJur);
+        //ambil indeks baris yang diklik oleh pengguna di table TableJurusan1
+         int barisYangDipilih = TableJurusan1.rowAtPoint(evt.getPoint());
+          //ambil indeks baris yang diklik oleh pengguna di table TableJurusan1
+         String kodeJurusan = TableJurusan1.getValueAt(barisYangDipilih, 0).toString();
+          //ambil indeks baris yang diklik oleh pengguna di table TableJurusan1
+         String namaJurusan = TableJurusan1.getValueAt(barisYangDipilih, 1).toString();
+         
+         //tampilkan kode jurusan di text field tKodeJurusan1
+         tKodeJurusan1.setText(kodeJurusan);
+         //nonaktifkan pengeditan pada text field kode jurusan (agar tidak bisa diubah)
+         tKodeJurusan1.setEditable(false);
+         //Tampilkan nama jurusan di text field 
+         tNamaJurusan1.setText(namaJurusan);
         
     }//GEN-LAST:event_TableJurusan1MouseClicked
 

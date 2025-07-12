@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package alumni_202457201064;
+import java.sql.*;
 
 /**
  *
@@ -15,8 +16,48 @@ public class PanelDashboard extends javax.swing.JPanel {
      */
     public PanelDashboard() {
         initComponents();
+        IsiJumlahDataDashboard();
     }
 
+     //membuat sebuah method 
+    private void IsiJumlahDataDashboard() {
+        Connection con = koneksi.konek();
+        try {
+            
+            String sqlJurusan = "SELECT COUNT(*) AS jumlah FROM jurusan";
+            Statement stJurusan = con.createStatement();
+            ResultSet rsJurusan = stJurusan.executeQuery(sqlJurusan);
+            if (rsJurusan.next()) {
+                int jumlah = rsJurusan.getInt("jumlah");
+                lblJurusan.setText(String.valueOf(jumlah));
+            }
+            
+            String sqlGuru = "SELECT COUNT(*) AS jumlah FROM guru";
+            Statement stGuru = con.createStatement();
+            ResultSet rsGuru = stGuru.executeQuery(sqlGuru);
+            if (rsGuru.next()) {
+                int jumlah = rsGuru.getInt("jumlah");
+                lblGuru.setText(String.valueOf(jumlah));
+            }
+            
+            String sqlSiswa = "SELECT COUNT(*) AS jumlah FROM siswa";
+            Statement stSiswa = con.createStatement();
+            ResultSet rsSiswa = stSiswa.executeQuery(sqlSiswa);
+            if (rsSiswa.next()) {
+                int jumlah = rsSiswa.getInt("jumlah");
+                lblSiswa.setText(String.valueOf(jumlah));
+            }
+            
+            String sqlKelas = "SELECT COUNT(*) AS jumlah FROM kelas";
+            Statement stKelas = con.createStatement();
+            ResultSet rsKelas = stKelas.executeQuery(sqlKelas);
+            if (rsKelas.next()) {
+                int jumlah = rsKelas.getInt("jumlah");
+                lblKelas.setText(String.valueOf(jumlah));
+            }
+        } catch (SQLException sQLException) {
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,20 +71,20 @@ public class PanelDashboard extends javax.swing.JPanel {
         jPanel29 = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
+        lblKelas = new javax.swing.JLabel();
         jPanel31 = new javax.swing.JPanel();
         jPanel32 = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
+        lblGuru = new javax.swing.JLabel();
         jPanel33 = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
+        lblSiswa = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel7 = new javax.swing.JPanel();
         jPanel35 = new javax.swing.JPanel();
         jLabel34 = new javax.swing.JLabel();
-        jLabel35 = new javax.swing.JLabel();
+        lblJurusan = new javax.swing.JLabel();
         jPanel38 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         bTutup = new javax.swing.JButton();
@@ -67,24 +108,24 @@ public class PanelDashboard extends javax.swing.JPanel {
             .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
         );
 
-        jLabel29.setFont(new java.awt.Font("Trebuchet MS", 1, 48)); // NOI18N
-        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel29.setText("10");
-        jLabel29.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        lblKelas.setFont(new java.awt.Font("Trebuchet MS", 1, 48)); // NOI18N
+        lblKelas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblKelas.setText("10");
+        lblKelas.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
         jPanel29.setLayout(jPanel29Layout);
         jPanel29Layout.setHorizontalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel30, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblKelas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel29Layout.setVerticalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel29Layout.createSequentialGroup()
                 .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel32.setBackground(new java.awt.Color(153, 255, 153));
@@ -92,7 +133,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         jLabel30.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(255, 255, 255));
         jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel30.setText("Jumlah Siswa");
+        jLabel30.setText("Jumlah Guru");
         jLabel30.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
@@ -106,24 +147,24 @@ public class PanelDashboard extends javax.swing.JPanel {
             .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
         );
 
-        jLabel31.setFont(new java.awt.Font("Trebuchet MS", 1, 48)); // NOI18N
-        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel31.setText("300");
-        jLabel31.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        lblGuru.setFont(new java.awt.Font("Trebuchet MS", 1, 48)); // NOI18N
+        lblGuru.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblGuru.setText("300");
+        lblGuru.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
         jPanel31.setLayout(jPanel31Layout);
         jPanel31Layout.setHorizontalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel32, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblGuru, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel31Layout.setVerticalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel31Layout.createSequentialGroup()
                 .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblGuru, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -132,7 +173,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         jLabel32.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
         jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel32.setText("Jumlah Guru");
+        jLabel32.setText("Jumlah Siswa");
         jLabel32.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel34Layout = new javax.swing.GroupLayout(jPanel34);
@@ -146,24 +187,24 @@ public class PanelDashboard extends javax.swing.JPanel {
             .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
         );
 
-        jLabel33.setFont(new java.awt.Font("Trebuchet MS", 1, 48)); // NOI18N
-        jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel33.setText("15");
-        jLabel33.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        lblSiswa.setFont(new java.awt.Font("Trebuchet MS", 1, 48)); // NOI18N
+        lblSiswa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSiswa.setText("15");
+        lblSiswa.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
         jPanel33.setLayout(jPanel33Layout);
         jPanel33Layout.setHorizontalGroup(
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel34, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel33, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblSiswa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel33Layout.setVerticalGroup(
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel33, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
+                .addComponent(lblSiswa, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
         );
 
         jPanel35.setBackground(new java.awt.Color(153, 255, 153));
@@ -191,10 +232,10 @@ public class PanelDashboard extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jLabel35.setFont(new java.awt.Font("Trebuchet MS", 1, 48)); // NOI18N
-        jLabel35.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel35.setText("3");
-        jLabel35.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        lblJurusan.setFont(new java.awt.Font("Trebuchet MS", 1, 48)); // NOI18N
+        lblJurusan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblJurusan.setText("3");
+        lblJurusan.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -203,14 +244,14 @@ public class PanelDashboard extends javax.swing.JPanel {
             .addComponent(jPanel35, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(lblJurusan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel38.setBackground(new java.awt.Color(153, 255, 153));
@@ -313,13 +354,9 @@ public class PanelDashboard extends javax.swing.JPanel {
     private javax.swing.JButton bTutup;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel31;
@@ -330,5 +367,9 @@ public class PanelDashboard extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblGuru;
+    private javax.swing.JLabel lblJurusan;
+    private javax.swing.JLabel lblKelas;
+    private javax.swing.JLabel lblSiswa;
     // End of variables declaration//GEN-END:variables
 }

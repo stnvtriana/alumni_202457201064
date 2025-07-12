@@ -3,6 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package alumni_202457201064;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,9 +24,75 @@ public class PanelGuru extends javax.swing.JPanel {
      */
     public PanelGuru() {
         initComponents();
-         model = new DefaultTableModel(new String[]{"NIP", "Nama Guru", "Jenis Kelamin", "Alamat"}, 0);
-    TableGuru1.setModel(model);
+        reset();
+        load_tabel_guru();
+}
+        void reset(){
+        //kosongkan isi text field kode jurusan
+        tNIP1.setText(null);
+        // aktifkan kembali text field kode jurusan agar bisa diedit 
+        tNIP1.setEditable(true);
+        //kosongkan isi text field nama jurusan
+        tNamaGuru1.setText(null);
+        cbJenisKelamin1.setSelectedItem(null);
+        tAlamat1.setText(null);
     }
+        void load_tabel_guru(){
+        //membuat objek model tabel baru
+        DefaultTableModel model = new DefaultTableModel();
+        //menambahkan kolom kedalam model tabel
+        //kolom pertama untuk kode jurusan
+        model.addColumn("NIP");
+        //kolom kedua untuk nama jurusan
+        model.addColumn("Nama Guru");
+        model.addColumn("L/P");
+        model.addColumn("Alamat");
+       
+        
+        //query SQL untuk mengambil semua data dari table jurusan
+        String sql = "SELECT * FROM guru";
+        
+            try {
+                //membuka koneksi kedatabase
+                Connection conn = koneksi.konek();
+
+                //membuka statement untuk menjalankan array
+                Statement st = conn.createStatement();
+
+                //menjalankan query dan menyimpan hasilnya dalam ResultSet
+                ResultSet rs = st.executeQuery(sql);
+
+                //melakukan iterasi untuk setiap baris data hasil query
+                while (rs.next()) {
+                    //mengambil data kolom nip
+                    String nip = rs.getString("nip");
+
+                    //mengambil data kolom nama_guru
+                    String namaGuru = rs.getString("nama_guru");
+                    
+                    //mengambil data kolom jeniskelamin
+                    String jenisKelamin = rs.getString("gender");
+                    
+                    //mengambil data alamat
+                    String alamat = rs.getString("alamat");
+                    
+ 
+
+                    //membuat array berisi data satu baris
+                    Object[] baris = {nip, namaGuru, jenisKelamin, alamat};
+
+                    //menambahkan array baris kedalam model table
+                    model.addRow(baris);
+
+                }
+            } catch (SQLException sQLException) {
+            //menampilkan pesan error jika gagal mengambil data dari database
+            JOptionPane.showMessageDialog(null, "Gagal Mengambil Data!");
+            }
+
+            //menampilkan model yang sudah diisi kedalam tabel GUI
+            TableGuru1.setModel(model);
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -278,53 +349,146 @@ public class PanelGuru extends javax.swing.JPanel {
 
     private void bUbah1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUbah1ActionPerformed
         // TODO add your handling code here:
-         int selectedRow = TableGuru1.getSelectedRow();
-        if (selectedRow != -1){
+         
             String NIP = tNIP1.getText();
             String NamaGuru = tNamaGuru1.getText();
-            String jnsKlmn = cbJenisKelamin1.getSelectedItem().toString();
+            String jeniskelamin= cbJenisKelamin1.getSelectedItem().toString();
             String alamat = tAlamat1.getText();
+            //menyiapkan variabel untuk menyimpan singkatan jenis kelami 'L' atau 'P'
+            String jk = null;
+            //mengubah nilai jenis kelamin dari label menjadi format singkatan yang disimpan di database
+           switch (jeniskelamin){
+               case "Laki - laki":
+                   jk= "L";
+                   break;
+                   case "Perempuan":
+                       jk = "P";
+                   break;
+                   default:
+                       jk=null;
+                       break;
+           }
+            //query SQL untuk mengubah data pada table 
+            String sql = "UPDATE guru SET nama_guru=?, gender=?, alamat=? WHERE nip=?";
             
-            model.setValueAt(NIP, selectedRow, 0);
-            model.setValueAt(NamaGuru, selectedRow, 1);
-            model.setValueAt(jnsKlmn, selectedRow, 2);
-            model.setValueAt(alamat, selectedRow, 3);
-           resetForm();
-        }else{
-            JOptionPane.showMessageDialog(this,"Pilih Baris Yang Akan Diubah.");
+            try {
+            //query SQL untuk menyisipkan data ketable jurusan
+            Connection conn = koneksi.konek();
+
+            //siapkan query SQL untuk dieksekusi dengan parameter
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            //isi  parameter pertama (?) dengan kode Jurusan
+            ps.setString(1, NamaGuru);
+            //isi  parameter pertama (?) dengan nama Jurusan
+            ps.setString(2, jk);
+            ps.setString(3, alamat);
+            ps.setString(4, NIP);
+
+            //jalankan query untuk menyimpan data ke databse
+            ps.execute();
+            //tampilkan pesan bahwa data berhasil disimpan
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan!");
+            
+        } catch (SQLException sQLException) {
+        //jika terjadi kesalahan saat menyimpan data, tampilkan pesan gagal
+        JOptionPane.showMessageDialog(null, "Data Gagal Disimpan!");
         }
+            //panggil method untuk memuat ulang data pada table jurusan
+           load_tabel_guru();
+           //panggil method untuk mereset atau mengosongkan inputan
+           reset();
     }//GEN-LAST:event_bUbah1ActionPerformed
 
     private void bTambah1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTambah1ActionPerformed
         // TODO add your handling code here:
             String NIP = tNIP1.getText();
             String NamaGuru = tNamaGuru1.getText();
-            String jnsKlmn = cbJenisKelamin1.getSelectedItem().toString();
-            String alamat = tAlamat1.getText().toString();
+            String alamat = tAlamat1.getText();
+            String jeniskelamin= cbJenisKelamin1.getSelectedItem().toString();
+            String jk = null;
+            //mengubah nilai jenis kelamin dari label menjadi format singkatan yang disimpan di database
+           switch (jeniskelamin){
+               case "Laki - laki":
+                   jk= "L";
+                   break;
+                   case "Perempuan":
+                       jk = "P";
+                   break;
+                   default:
+                       jk=null;
+                       break;
+           }
+
+            //query SQL untuk mengubah data pada table 
+            String sql = "INSERT INTO guru(nip, nama_guru, gender, alamat) VALUES (?,?,?,?)";
             
-            if (NIP.isEmpty() && NamaGuru.isEmpty() && jnsKlmn.isEmpty() && alamat.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Data Tidak Boleh Kosong");
-  
-            } else {
-               model.addRow(new Object[]{NIP, NamaGuru, jnsKlmn, alamat});
-                resetForm();
-            }
+           try {
+            //query SQL untuk menyisipkan data ketable jurusan
+            Connection conn = koneksi.konek();
+
+            //siapkan query SQL untuk dieksekusi dengan parameter
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            //isi  parameter pertama (?) dengan kode Jurusan
+            ps.setString(1, NIP);
+            //isi  parameter pertama (?) dengan nama Jurusan
+            ps.setString(2, NamaGuru);
+            ps.setString(3, jk);
+            ps.setString(4, alamat);
+          
+            //jalankan query untuk menyimpan data ke databse
+            ps.execute();
+            //tampilkan pesan bahwa data berhasil disimpan
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan!");
+            
+         } catch (SQLException sQLException) {
+        //jika terjadi kesalahan saat menyimpan data, tampilkan pesan gagal
+             JOptionPane.showMessageDialog(null, "Data Gagal Disimpan!");
+               System.out.println(sQLException);
+        }
+            //panggil method untuk memuat ulang data pada table jurusan
+           load_tabel_guru();
+           //panggil method untuk mereset atau mengosongkan inputan
+           reset();
     }//GEN-LAST:event_bTambah1ActionPerformed
 
     private void bHapus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bHapus1ActionPerformed
         // TODO add your handling code here:
-         int selectedRow = TableGuru1.getSelectedRow();
-        if (selectedRow != -1){
-            model.removeRow(selectedRow);
-            resetForm();
-        }else {
-            JOptionPane.showMessageDialog(this, "Pilih Baris Yang Akan Dihapus.");
+         String NIP = tNIP1.getText();
+            //query SQL untuk mengubah data pada table 
+            String sql = "DELETE FROM guru WHERE nip=?";
+            
+            try {
+            //query SQL untuk menyisipkan data ketable jurusan
+            Connection conn = koneksi.konek();
+
+            //siapkan query SQL untuk dieksekusi dengan parameter
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            //isi  parameter pertama (?) dengan kode Jurusan
+            ps.setString(1, NIP);
+            
+            //jalankan query untuk menyimpan data ke databse
+            ps.execute();
+            //tampilkan pesan bahwa data berhasil disimpan
+            JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan!");
+            
+        } catch (SQLException sQLException) {
+        //jika terjadi kesalahan saat menyimpan data, tampilkan pesan gagal
+        JOptionPane.showMessageDialog(null, "Data Gagal Disimpan!");
+                System.out.println(sQLException);
         }
+            //panggil method untuk memuat ulang data pada table jurusan
+           load_tabel_guru();
+           //panggil method untuk mereset atau mengosongkan inputan
+           reset();
+                                         
     }//GEN-LAST:event_bHapus1ActionPerformed
 
     private void bReset1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReset1ActionPerformed
         // TODO add your handling code here:
-        resetForm();
+       reset();
     }//GEN-LAST:event_bReset1ActionPerformed
 
     private void bTutupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTutupActionPerformed
@@ -334,23 +498,40 @@ public class PanelGuru extends javax.swing.JPanel {
 
     private void TableGuru1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableGuru1MouseClicked
         // TODO add your handling code here:
-         int baris = TableGuru1.getSelectedRow();
-         if (baris == -1) {
-            JOptionPane.showMessageDialog(this, "Pilih baris terlebih dahulu!");
-             return;
+         //ambil indeks baris yang diklik oleh pengguna di table TableJurusan1
+         int barisYangDipilih = TableGuru1.rowAtPoint(evt.getPoint());
+          //ambil indeks baris yang diklik oleh pengguna di table TableJurusan1
+         String NIP = TableGuru1.getValueAt(barisYangDipilih, 0).toString();
+          //ambil indeks baris yang diklik oleh pengguna di table TableJurusan1
+         String namaGuru = TableGuru1.getValueAt(barisYangDipilih, 1).toString();
+         String jnsklmn = TableGuru1.getValueAt(barisYangDipilih, 2).toString();
+         String alamat = TableGuru1.getValueAt(barisYangDipilih, 3).toString();
+         
+         //tampilkan kode jurusan di text field tKodeJurusan1
+         tNIP1.setText(NIP);
+         //nonaktifkan pengeditan pada text field kode jurusan (agar tidak bisa diubah)
+         tNIP1.setEditable(false);
+         //Tampilkan nama jurusan di text field 
+         tNamaGuru1.setText(namaGuru);
+         tAlamat1.setText(alamat);
+         //mengecek nilai jenis kelamin  dan menyesuaikan pilihan pada combo box cbjeniskelamin1
+        switch (jnsklmn) {
+            //jika nilai jenis kelamin "L", set pilihan combo box ke "Laki laki" 
+            case "L":
+                cbJenisKelamin1.setSelectedItem("Laki - laki");
+                break;
+                
+                  //jika nilai jenis kelamin "L", set pilihan combo box ke "Laki laki" 
+            case "P":
+                cbJenisKelamin1.setSelectedItem("Perempuan");
+                break;
+                //jika nilainya bukan L atau P, kosongkan pilihan combo box
+            default:
+              cbJenisKelamin1.setSelectedItem(null);
+              break;
         }
-
-// Ambil nilai dari setiap kolom sesuai urutan yang benar
-            String nip = TableGuru1.getValueAt(baris, 0).toString();
-            String namaGuru = TableGuru1.getValueAt(baris, 1).toString();
-            String jenisKelamin = TableGuru1.getValueAt(baris, 2).toString();
-            String alamat = TableGuru1.getValueAt(baris, 3).toString();
-
-            // Isi ke field input
-            tNIP1.setText(nip);
-            tNamaGuru1.setText(namaGuru);
-            cbJenisKelamin1.setSelectedItem(jenisKelamin); 
-            tAlamat1.setText(alamat);
+ 
+        
     }//GEN-LAST:event_TableGuru1MouseClicked
 
 
